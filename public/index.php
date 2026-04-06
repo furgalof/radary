@@ -132,9 +132,9 @@ let tempLine=null;
 
 // IKONY
 const radarIcon = L.icon({iconUrl:'/icons/radar.png', iconSize:[32,32]});
-const semaforIcon = L.icon({iconUrl:'/radar/icons/cervena.png', iconSize:[32,32]});
+const semaforIcon = L.icon({iconUrl:'https://radary.furgalofteam.cz/radar/icons/cervena.png', iconSize:[32,32]});
 const cameraIcon = L.icon({iconUrl:'https://static.vecteezy.com/system/resources/previews/016/016/734/original/transparent-cctv-camera-icon-free-png.png', iconSize:[32,32]});
-const cameraendIcon = L.icon({iconUrl:'/radar/icons/x.png', iconSize:[32,32]});
+const cameraendIcon = L.icon({iconUrl:'https://radary.furgalofteam.cz/radar/icons/x.png', iconSize:[32,32]});
 const uradarIcon = L.icon({iconUrl:'https://tse2.mm.bing.net/th/id/OIP.i3W35dE-H9r0cjGdHp-zsAHaHa?rs=1&pid=ImgDetMain&o=7&rm=3', iconSize:[32,32]});
 const udalostIcon = L.icon({iconUrl:'https://static.vecteezy.com/system/resources/previews/012/042/292/original/warning-sign-icon-transparent-background-png.png', iconSize:[32,32]});
 const kolonaIcon = L.icon({iconUrl:'https://www.freeiconspng.com/uploads/car-heavy-traffic-sign-traffic-icon--28.png', iconSize:[32,32]});
