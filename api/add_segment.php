@@ -1,42 +1,23 @@
 <?php
-session_start();
 
-if(!isset($_SESSION['user_id'])){
-    http_response_code(403);
-    exit("Musíš být přihlášen.");
-}
+$ch = curl_init("https://radary.furgalofteam.cz/radar/api/add_segment.php");
 
-require "db.php";
+curl_setopt_array($ch, [
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_POST => true,
+    CURLOPT_POSTFIELDS => $_POST,
 
-$name = trim($_POST['name'] ?? '');
-$type = $_POST['type'] ?? 'Usek';
-$coordinates = $_POST['coordinates'] ?? '';
-
-if(!$name || !$coordinates){
-    http_response_code(400);
-    exit("Chybí data.");
-}
-
-try{
-
-$stmt = $pdo->prepare("
-INSERT INTO map_objects
-(name,type,coordinates,created_at)
-VALUES
-(:name,:type,:coordinates,NOW())
-");
-
-$stmt->execute([
-":name"=>$name,
-":type"=>$type,
-":coordinates"=>$coordinates
+    // 🔥 důležité pro login
+    CURLOPT_COOKIEJAR => "/tmp/cookies.txt",
+    CURLOPT_COOKIEFILE => "/tmp/cookies.txt"
 ]);
 
-echo "Úsek byl přidán.";
+$response = curl_exec($ch);
 
-}catch(PDOException $e){
-
-http_response_code(500);
-echo "Chyba DB: ".$e->getMessage();
-
+if($response === false){
+    http_response_code(500);
+    echo "API error";
+    exit;
 }
+
+echo $response;
