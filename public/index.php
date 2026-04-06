@@ -215,7 +215,7 @@ function loadObjects(){
 
     const bounds = map.getBounds();
 
-    fetch('/api/objects.php',{
+    fetch('https://radary.furgalofteam.cz/radar/api/objects.php',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({
@@ -406,7 +406,7 @@ function askAI(){
     loader.style.display = "block";
     responseBox.innerHTML = "";
 
-    fetch("/api/ai.php",{
+    fetch("https://radary.furgalofteam.cz/radar/api/ai.php",{
         method:"POST",
         headers:{'Content-Type':'application/x-www-form-urlencoded'},
         body:"prompt="+encodeURIComponent(q)
@@ -595,7 +595,7 @@ document.addEventListener("keydown",function(e){
             return;
         }
 
-        fetch("/radar/api/add_segment.php",{
+        fetch("https://radary.furgalofteam.cz/radar/api/add_segment.php",{
             method:"POST",
             body:new URLSearchParams({
                 name:"Úsek",
