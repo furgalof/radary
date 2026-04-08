@@ -29,5 +29,6 @@ curl_setopt_array($ch, [
 $response = curl_exec($ch);
 
 echo $response;
+?>
 </body>
 </html>
