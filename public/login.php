@@ -16,7 +16,7 @@
 
 <?php
 
-$ch = curl_init("https://radary.furgalofteam.cz/radar/api/login.php");
+$ch = curl_init("https://www.naviox.eu/radar/api/login.php");
 
 curl_setopt_array($ch, [
     CURLOPT_POST => true,
