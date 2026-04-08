@@ -1,4 +1,6 @@
-<?php session_start(); ?>
+<?php
+session_start();
+?>
 <!DOCTYPE html>
 <html lang="cs">
 <head>
@@ -6,6 +8,7 @@
 <title>Přihlášení</title>
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+
 <body class="container mt-5">
 
 <h2>Přihlášení</h2>
@@ -20,20 +23,66 @@
 
 if($_SERVER['REQUEST_METHOD'] === 'POST'){
 
-    $ch = curl_init("https://www.naviox.eu/radar/api/login_api.php");
+    $email = $_POST['email'] ?? '';
+    $password = $_POST['password'] ?? '';
 
-    curl_setopt_array($ch, [
-        CURLOPT_POST => true,
-        CURLOPT_POSTFIELDS => $_POST,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_COOKIEJAR => __DIR__."/cookies.txt",
-        CURLOPT_COOKIEFILE => __DIR__."/cookies.txt"
-    ]);
+    if(!$email || !$password){
+        echo "<div class='text-danger mt-3'>❌ Vyplň všechna pole</div>";
+    } else {
 
-    $response = curl_exec($ch);
-    curl_close($ch);
+        // 🔥 JSON payload
+        $payload = json_encode([
+            "email" => $email,
+            "password" => $password
+        ]);
 
-    echo "<div class='mt-3'>$response</div>";
+        // 🔥 CURL na API
+        $ch = curl_init("https://www.naviox.eu/radar/api/login_api.php");
+
+        curl_setopt_array($ch, [
+            CURLOPT_POST => true,
+            CURLOPT_POSTFIELDS => $payload,
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HTTPHEADER => [
+                "Content-Type: application/json"
+            ],
+            CURLOPT_TIMEOUT => 10
+        ]);
+
+        $response = curl_exec($ch);
+
+        if(curl_error($ch)){
+            echo "<div class='text-danger mt-3'>❌ CURL chyba: ".curl_error($ch)."</div>";
+            curl_close($ch);
+            exit;
+        }
+
+        curl_close($ch);
+
+        $data = json_decode($response, true);
+
+        if(!$data){
+            echo "<div class='text-danger mt-3'>❌ Neplatná odpověď serveru</div>";
+            exit;
+        }
+
+        // ✅ SUCCESS LOGIN
+        if(isset($data['success']) && $data['success'] === true){
+
+            $_SESSION['user_id'] = $data['user_id'];
+
+            echo "<div class='text-success mt-3'>✅ Přihlášení úspěšné</div>";
+
+            // redirect (volitelný)
+            echo "<script>setTimeout(()=>window.location='index.php',1000)</script>";
+
+        } else {
+
+            $error = $data['error'] ?? 'Neznámá chyba';
+            echo "<div class='text-danger mt-3'>❌ $error</div>";
+
+        }
+    }
 }
 
 ?>
