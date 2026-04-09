@@ -1,0 +1,5 @@
+CREATE TABLE cache_objects (
+    id SERIAL PRIMARY KEY,
+    data TEXT,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
