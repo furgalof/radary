@@ -6,16 +6,15 @@ services:
     container_name: radarmapa_web
     ports:
       - "8080:80"
-    restart: always
     depends_on:
       - db
+    restart: always
 
   db:
-    image: mysql:8
+    image: postgres:15
     container_name: radarmapa_db
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: radar
-      MYSQL_USER: radar
-      MYSQL_PASSWORD: radar
+      POSTGRES_DB: radar
+      POSTGRES_USER: radar
+      POSTGRES_PASSWORD: radar
